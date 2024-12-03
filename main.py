@@ -1,15 +1,17 @@
 import random
 import os
+import shutil
 
 def wichteln(names):
     if len(names) < 2:
         print("Alleine gehts nit xD")
         return
 
-    # Output shit
+    # Output und cleanup shit
     output_folder = "wichtel_ergebnisse"
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)  # Löscht den gesamten Ordner und dessen Inhalt
+    os.makedirs(output_folder)
 
     # Zuweisung
     givers = names[:]
@@ -17,9 +19,13 @@ def wichteln(names):
     random.shuffle(receivers)
 
     # Damit wichteln funktioniert
-    for _ in range(100):  # unlucky
+    for i in range(100):  # unlucky
         if all(g != r for g, r in zip(givers, receivers)):
             break
+        print(f"Fehlversuch {i+1}")
+        print(givers)
+        print(receivers)
+        print()
         random.shuffle(receivers)
     else:
         print("Du hasch echt pech ^^")
